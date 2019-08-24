@@ -24,10 +24,10 @@ Se eu chamar a rota `POST /projects` repassando `{ id: 1, title: 'Novo projeto' 
 [
   {
     id: "1",
-    title: 'Novo projeto',
-    tasks: ['Nova tarefa']
+    title: "Novo projeto",
+    tasks: ["Nova tarefa"]
   }
-]
+];
 ```
 
 ## Middlewares
@@ -43,4 +43,3 @@ Esse desafio **não precisa ser entregue** e não receberá correção, mas voc�
 Após concluir o desafio, adicionar esse código ao seu Github é uma boa forma de demonstrar seus conhecimentos para oportunidades futuras.
 
 “Sua única limitação é você mesmo”!
-
