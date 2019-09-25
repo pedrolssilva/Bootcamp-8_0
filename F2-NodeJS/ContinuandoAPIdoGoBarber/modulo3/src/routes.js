@@ -21,6 +21,7 @@ routes.use(authMiddleware);
 routes.post('/files', upload.single('file'), FileController.store);
 routes.post('/appointments', AppointmentController.store);
 routes.put('/users', UserController.update);
+routes.put('/notifications/:id', NotificationController.update);
 routes.get('/appointments', AppointmentController.index);
 routes.get('/providers', ProviderController.index);
 routes.get('/schedule', ScheduleController.index);
