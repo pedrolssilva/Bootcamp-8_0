@@ -12,27 +12,69 @@ class MeetupController {
       location: Yup.string().required(),
       date: Yup.date().required(),
       banner_id: Yup.number().required(),
-      user_id: Yup.number().required(),
     });
 
     if (!(await schema.isValid(req.body))) {
       res.status(400).json({ error: 'validation fails' });
     }
 
-    const { date, user_id } = req.body;
-
-    if (user_id != req.userId) {
-      res.status(401).json({ error: 'user_id is different of user logged.' });
-    }
-
-    const dateMeetup = toDate(parseISO(date));
+    const dateMeetup = toDate(parseISO(req.body.date));
     if (isBefore(dateMeetup, new Date())) {
       res.status(400).json({ error: 'Past dates are not permitted.' });
     }
+    const user_id = req.userId;
 
-    const meetup = await Meetup.create(req.body);
+    const meetup = await Meetup.create({ ...req.body, user_id });
 
     return res.json(meetup);
+  }
+
+  async update(req, res) {
+    const schema = Yup.object().shape({
+      title: Yup.string(),
+      description: Yup.string().min(10),
+      location: Yup.string(),
+      date: Yup.date(),
+      banner_id: Yup.number(),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      res.status(400).json({ error: 'validation fails.' });
+    }
+
+    const meetup = await Meetup.findByPk(req.params.meetupId);
+
+    if (!meetup) {
+      return res.status(400).json({ error: 'meetup not found.' });
+    }
+
+    if (meetup.past) {
+      return res
+        .status(400)
+        .json({ error: 'You can not update past meetups.' });
+    }
+
+    if (isBefore(parseISO(req.body.date), new Date())) {
+      return res
+        .status(400)
+        .json({ error: 'You can not update meetup with past dates.' });
+    }
+
+    if (meetup.user_id !== req.userId) {
+      return res.status(401).json({
+        error: 'You can not change meetup that you are not organizer.',
+      });
+    }
+
+    const {
+      title,
+      description,
+      location,
+      date,
+      banner_id,
+    } = await meetup.update(req.body);
+
+    return res.json({ title, description, location, date, banner_id });
   }
 }
 
