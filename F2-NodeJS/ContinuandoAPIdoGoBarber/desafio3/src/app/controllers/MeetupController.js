@@ -76,6 +76,30 @@ class MeetupController {
 
     return res.json({ title, description, location, date, banner_id });
   }
+
+  async delete(req, res) {
+    const { meetupId } = req.params;
+
+    const meetup = await Meetup.findByPk(meetupId);
+
+    if (!meetup) {
+      return res.status(400).json({ error: 'meetup not found' });
+    }
+    if (meetup.past) {
+      return res
+        .status(400)
+        .json({ error: "it's not possible delete past meetups" });
+    }
+    if (meetup.user_id !== req.userId) {
+      return res
+        .status(401)
+        .json({ error: "you can't delete meetup that you are not organizer." });
+    }
+
+    await meetup.destroy();
+
+    return res.json({ success: 'OK' });
+  }
 }
 
 export default new MeetupController();
