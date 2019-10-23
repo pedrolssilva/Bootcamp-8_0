@@ -13,12 +13,12 @@ class SubscriptionController {
         error: "It's not possibile subscribe a past meetup.",
       });
     }
-
     if (meetup.user_id === req.userId) {
       return res.status(400).json({
         error: "It's not possibile subscribe a meetup that you are organizer.",
       });
     }
+
     const subscriptionExist = await Subscription.findOne({
       where: { user_id: req.userId, meetup_id: meetup.id },
     });
@@ -26,6 +26,23 @@ class SubscriptionController {
     if (subscriptionExist) {
       return res.status(400).json({
         error: 'Already subscribed this meetup.',
+      });
+    }
+
+    const checkData = await Subscription.findOne({
+      where: { user_id: req.userId },
+      include: [
+        {
+          model: Meetup,
+          required: true,
+          where: { date: meetup.date },
+        },
+      ],
+    });
+
+    if (checkData) {
+      return res.status(400).json({
+        error: 'Already subscribed a meetup in the same date.',
       });
     }
 
