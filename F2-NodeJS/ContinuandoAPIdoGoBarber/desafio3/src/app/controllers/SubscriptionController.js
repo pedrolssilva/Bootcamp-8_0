@@ -1,5 +1,9 @@
+import { format } from 'date-fns';
+import pt from 'date-fns/locale/pt';
 import Meetup from '../models/Meetup';
 import Subscription from '../models/Subscription';
+import Notification from '../schemas/notification';
+import User from '../models/User';
 
 class SubscriptionController {
   async store(req, res) {
@@ -45,6 +49,18 @@ class SubscriptionController {
         error: 'Already subscribed a meetup in the same date.',
       });
     }
+
+    /* Notify subcription organizer */
+    const user = await User.findByPk(req.userId);
+    const formattedDate = format(
+      meetup.date,
+      "'dia' dd 'de' MMMM', às' H:mm'h'",
+      { locale: pt }
+    );
+    await Notification.create({
+      content: `Nova inscrição de ${user.name} no meetup "${meetup.title}" do ${formattedDate}`,
+      user: meetup.user_id,
+    });
 
     const subscription = await Subscription.create({
       meetup_id: req.params.meetupId,
