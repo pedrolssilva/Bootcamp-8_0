@@ -5,6 +5,7 @@ import Meetup from '../models/Meetup';
 import Subscription from '../models/Subscription';
 import Notification from '../schemas/notification';
 import User from '../models/User';
+import File from '../models/File';
 import Queue from '../../lib/queue';
 import SubscriptionMail from '../jobs/subscriptionMail';
 
@@ -12,13 +13,29 @@ class SubscriptionController {
   async index(req, res) {
     const subscriptions = await Subscription.findAll({
       where: { user_id: req.userId },
-      include: {
-        model: Meetup,
-        where: {
-          date: { [Op.gt]: new Date() },
+      attributes: ['id'],
+      include: [
+        {
+          model: Meetup,
+          where: {
+            date: { [Op.gt]: new Date() },
+          },
+          required: true,
+          attributes: ['id', 'title', 'description', 'location', 'date'],
+          include: [
+            {
+              model: User,
+              as: 'organizer',
+              attributes: ['id', 'name', 'email'],
+            },
+            {
+              model: File,
+              as: 'banner',
+              attributes: ['name', 'path', 'url'],
+            },
+          ],
         },
-        required: true,
-      },
+      ],
       order: [[Meetup, 'date']],
     });
 
