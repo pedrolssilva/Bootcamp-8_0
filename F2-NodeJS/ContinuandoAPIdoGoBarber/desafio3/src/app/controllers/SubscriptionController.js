@@ -12,6 +12,7 @@ class SubscriptionController {
     const meetup = await Meetup.findByPk(req.params.meetupId, {
       include: {
         model: User,
+        as: 'organizer',
         attributes: ['name', 'email'],
       },
     });
