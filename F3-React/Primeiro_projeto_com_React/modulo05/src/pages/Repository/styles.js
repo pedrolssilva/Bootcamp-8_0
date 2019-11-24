@@ -108,6 +108,12 @@ export const IssueFilter = styled.div`
   justify-content: center;
   padding-bottom: 10px;
 
+  p {
+    align-self: center;
+    font-size: 14px;
+    color: #999;
+  }
+
   button {
     margin: 0 0.25rem;
     font-family: Arial, Helvetica, sans-serif;
@@ -118,10 +124,42 @@ export const IssueFilter = styled.div`
     background: #7159c1;
     color: #fff;
 
-    &:nth-child(${props => props.active + 1}) {
+    &:nth-child(${props => props.active + 2}) {
       background: #576574;
       font-weight: bold;
       font-style: italic;
     }
+  }
+`;
+
+export const PaginationControl = styled.div`
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  height: 20px;
+
+  button {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    display: flex;
+    border: none;
+    border-radius: 4px;
+    padding: 0 5px;
+    align-items: center;
+    color: #7159c1;
+    background: none;
+
+    &[disabled] {
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+  }
+
+  span {
+    margin: 0 5px;
+    align-self: center;
+    color: #7159c1;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
   }
 `;
