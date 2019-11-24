@@ -43,6 +43,13 @@ export default class Main extends Component {
     const { newRepo, repositories } = this.state;
 
     try {
+      const repoDuplicated = repositories.some(
+        r => r.name.toLowerCase() === newRepo.toLowerCase()
+      );
+      if (repoDuplicated) {
+        throw new Error('Repository already added.');
+      }
+
       const response = await api.get(`repos/${newRepo}`);
       const data = {
         name: response.data.full_name,
