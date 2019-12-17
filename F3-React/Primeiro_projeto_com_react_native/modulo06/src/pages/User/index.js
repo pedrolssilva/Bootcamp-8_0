@@ -27,12 +27,28 @@ export default class User extends Component {
       stars: [],
       loading: false,
       page: 1,
+      totalPages: 1,
     };
   }
 
   async componentDidMount() {
     this.load();
   }
+
+  setTotalPAges = async link => {
+    if (link) {
+      const lastPage = await link.split(',').find(value => {
+        const stringValue = String(value);
+        return String(stringValue).includes('last');
+      });
+
+      if (lastPage) {
+        const myRegexp = /(?:=)([\d]+)/g;
+        const match = myRegexp.exec(lastPage);
+        this.setState({ totalPages: match[1] });
+      }
+    }
+  };
 
   load = async (page = 1) => {
     const { stars } = this.state;
@@ -48,8 +64,10 @@ export default class User extends Component {
       },
     });
 
+    await this.setTotalPAges(response.headers.link);
+
     if (response.data) {
-      await this.setState({
+      this.setState({
         loading: false,
         stars: page > 1 ? [...stars, ...response.data] : response.data,
         page,
@@ -65,7 +83,7 @@ export default class User extends Component {
 
   render() {
     const { navigation } = this.props;
-    const { stars, loading } = this.state;
+    const { stars, loading, page, totalPages } = this.state;
     const user = navigation.getParam('user');
 
     return (
@@ -81,7 +99,7 @@ export default class User extends Component {
         ) : (
           <Stars
             onEndReachedThreshold={0.2}
-            onEndReached={this.loadMore}
+            onEndReached={page < totalPages ? this.loadMore : null}
             data={stars}
             keyExtractor={star => String(star.id)}
             renderItem={({ item }) => (
