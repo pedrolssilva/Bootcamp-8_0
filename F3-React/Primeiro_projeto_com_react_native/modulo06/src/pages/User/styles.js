@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import { RectButton } from 'react-native-gesture-handler';
 
 export const Container = styled.View`
   flex: 1;
@@ -84,4 +85,21 @@ export const Loading = styled.ActivityIndicator.attrs({
   justify-content: center;
   align-items: center;
   margin-top: 20px;
+`;
+
+export const RepoButton = styled(RectButton)`
+  margin-top: 5px;
+  align-self: flex-start;
+  border-radius: 4px;
+  background: #9157c1;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  padding: 5px;
+`;
+
+export const RepoButtonText = styled.Text`
+  font-size: 12px;
+  color: #fff;
+  font-weight: bold;
 `;

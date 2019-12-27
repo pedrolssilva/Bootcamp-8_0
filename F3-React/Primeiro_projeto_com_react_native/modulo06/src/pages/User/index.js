@@ -14,6 +14,8 @@ import {
   Info,
   Title,
   Author,
+  RepoButton,
+  RepoButtonText,
 } from './styles';
 
 export default class User extends Component {
@@ -92,6 +94,11 @@ export default class User extends Component {
     this.setState({ refreshing: false });
   };
 
+  handleNavigate = repository => {
+    const { navigation } = this.props;
+    navigation.navigate('Repository', { repository });
+  };
+
   render() {
     const { navigation } = this.props;
     const { stars, loading, page, totalPages, refreshing } = this.state;
@@ -111,6 +118,7 @@ export default class User extends Component {
           <Stars
             onRefresh={this.refreshList}
             refreshing={refreshing}
+            i
             onEndReachedThreshold={0.2}
             onEndReached={page < totalPages ? this.loadMore : null}
             data={stars}
@@ -121,6 +129,13 @@ export default class User extends Component {
                 <Info>
                   <Title>{item.name}</Title>
                   <Author>{item.owner.login}</Author>
+                  <RepoButton
+                    onPress={() => {
+                      this.handleNavigate(item);
+                    }}
+                  >
+                    <RepoButtonText>Ver repositório</RepoButtonText>
+                  </RepoButton>
                 </Info>
               </Starred>
             )}
@@ -134,5 +149,6 @@ export default class User extends Component {
 User.propTypes = {
   navigation: PropTypes.shape({
     getParam: PropTypes.func,
+    navigate: PropTypes.func,
   }).isRequired,
 };
