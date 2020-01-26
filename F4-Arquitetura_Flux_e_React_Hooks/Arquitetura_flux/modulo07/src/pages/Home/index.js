@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropType from 'prop-types';
 import { connect } from 'react-redux';
 import { MdAddShoppingCart } from 'react-icons/md';
 import { ProductList } from './styles';
@@ -56,5 +57,9 @@ class Home extends Component {
     );
   }
 }
+
+Home.propTypes = {
+  dispatch: PropType.func.isRequired,
+};
 
 export default connect()(Home);
