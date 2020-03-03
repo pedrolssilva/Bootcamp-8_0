@@ -1,7 +1,10 @@
+/* eslint-disable react/jsx-props-no-spreading */
+import React from 'react';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import Home from './pages/Home';
 import Cart from './pages/Cart';
+import Header from './components/Header';
 
 const Routes = createAppContainer(
   createStackNavigator(
@@ -10,17 +13,14 @@ const Routes = createAppContainer(
       Cart,
     },
     {
-      defaultNavigationOptions: {
-        headerTitleAlign: 'center',
-        headerBackTitleVisible: false,
-        headerStyle: {
-          backgroundColor: '#7159c1',
-        },
-        headerTintColor: '#fff',
+      headerMode: 'float',
+      defaultNavigationOptions: navigation => ({
+        gestureEnabled: true,
+        header: () => <Header {...navigation} />,
         cardStyle: {
           backgroundColor: '#000',
         },
-      },
+      }),
     }
   )
 );
