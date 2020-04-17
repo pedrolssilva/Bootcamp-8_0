@@ -12,9 +12,12 @@
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.6",
     "axios": "^0.19.2",
+    "jsc-android": "^241213.1.0",
+    "polished": "^3.4.4",
     "react": "16.9.0",
     "react-native": "0.61.5",
     "react-native-gesture-handler": "^1.6.0",
+    "react-native-intl": "^1.0.0",
     "react-native-reanimated": "^1.7.0",
     "react-native-safe-area-context": "^0.7.3",
     "react-native-screens": "^2.2.0",

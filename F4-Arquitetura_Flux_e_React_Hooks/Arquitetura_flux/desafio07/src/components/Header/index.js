@@ -10,11 +10,16 @@ import {
 } from './styles';
 
 function Header({ navigation, cartSize }) {
-  console.tron.log(`[Header] =>`, navigation);
   return (
     <Wrapper>
       <Container>
-        <LogoContainer onPress={() => navigation.navigate('Home')}>
+        <LogoContainer
+          onPress={() => {
+            const { routeName } = navigation.state;
+            if (routeName && !routeName.includes('Home'))
+              navigation.replace('Home');
+          }}
+        >
           <Logo />
         </LogoContainer>
         <BasketContainer onPress={() => navigation.navigate('Cart')}>
