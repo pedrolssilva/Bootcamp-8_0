@@ -40,12 +40,12 @@ class Home extends React.Component {
   getProducts = async () => {
     const response = await api.get('/products');
 
-    // const data = response.data.map(product => ({
-    //   ...product,
-    //   priceFormatted: formatPrice(product.price),
-    // }));
+    const data = response.data.map(product => ({
+      ...product,
+      priceFormatted: formatPrice(product.price),
+    }));
 
-    this.setState({ products: response.data });
+    this.setState({ products: data });
   };
 
   handleAddProduct = id => {
@@ -58,7 +58,7 @@ class Home extends React.Component {
       <Product key={item.id}>
         <ProductImage source={{ uri: item.image }} />
         <ProductTitle>{item.title}</ProductTitle>
-        <ProductPrice>{item.price}</ProductPrice>
+        <ProductPrice>{item.priceFormatted}</ProductPrice>
         <AddButton onPress={() => this.handleAddProduct(item.id)}>
           <ProductAmount>
             <Icon name="add-shopping-cart" color="#FFF" size={20} />

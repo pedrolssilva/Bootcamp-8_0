@@ -1,6 +1,3 @@
-import intl from 'react-native-intl';
-
-export const { format: formatPrice } = new intl.NumberFormat('pt-BR', {
-  style: 'currency',
-  currency: 'BRL',
-});
+export function formatPrice(num) {
+  return `R$ ${num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}`;
+}
