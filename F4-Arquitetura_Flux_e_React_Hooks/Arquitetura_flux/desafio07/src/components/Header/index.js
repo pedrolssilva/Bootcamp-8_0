@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {
   Wrapper,
@@ -31,4 +32,6 @@ function Header({ navigation, cartSize }) {
   );
 }
 
-export default Header;
+export default connect(state => ({
+  cartSize: state.cart.length,
+}))(Header);

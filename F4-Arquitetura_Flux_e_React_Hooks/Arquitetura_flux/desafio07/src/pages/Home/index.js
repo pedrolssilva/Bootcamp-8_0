@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -17,19 +18,11 @@ import {
   AddButtonText,
 } from './styles';
 
-class Home extends React.Component {
+class Home extends Component {
   constructor() {
     super();
     this.state = {
-      products: [
-        // {
-        //   id: 1,
-        //   title: 'Tênis de Caminhada Leve Confortável',
-        //   price: 179.9,
-        //   image:
-        //     'https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis1.jpg',
-        // },
-      ],
+      products: [],
     };
   }
 
@@ -48,9 +41,14 @@ class Home extends React.Component {
     this.setState({ products: data });
   };
 
-  handleAddProduct = id => {
-    // const { addToCartRequest } = this.props;
+  handleAddProduct = product => {
+    const { dispatch } = this.props;
     // addToCartRequest(id);
+
+    dispatch({
+      type: 'ADD_TO_CART',
+      product,
+    });
   };
 
   renderProduct = ({ item }) => {
@@ -59,7 +57,7 @@ class Home extends React.Component {
         <ProductImage source={{ uri: item.image }} />
         <ProductTitle>{item.title}</ProductTitle>
         <ProductPrice>{item.priceFormatted}</ProductPrice>
-        <AddButton onPress={() => this.handleAddProduct(item.id)}>
+        <AddButton onPress={() => this.handleAddProduct(item)}>
           <ProductAmount>
             <Icon name="add-shopping-cart" color="#FFF" size={20} />
             <ProductAmountText>{0}</ProductAmountText>
@@ -86,4 +84,4 @@ class Home extends React.Component {
   }
 }
 
-export default Home;
+export default connect()(Home);
