@@ -1,12 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-// import * as CartActions from '../../store/modules/cart/actions';
-
+import * as CartActions from '../../store/modules/cart/actions';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { formatPrice } from '../../util/format';
 import colors from '../../styles/colors';
-
 import {
   Container,
   Products,
@@ -34,7 +32,6 @@ function Cart({
   navigation,
   products,
   total,
-  dispatch,
   removeFromCart,
   updateAmountRequest,
 }) {
@@ -59,14 +56,7 @@ function Cart({
                     <ProductTitle>{product.title}</ProductTitle>
                     <ProductPrice>{product.priceFormatted}</ProductPrice>
                   </ProductDetails>
-                  <ProductDelete
-                    onPress={() =>
-                      dispatch({
-                        type: 'REMOVE_FROM_CART',
-                        id: product.id,
-                      })
-                    } /* removeFromCart(product.id)} */
-                  >
+                  <ProductDelete onPress={() => removeFromCart(product.id)}>
                     <Icon
                       name="delete-forever"
                       size={24}
@@ -127,10 +117,10 @@ const mapStateToProps = state => ({
   ),
 });
 
-// const mapDispatchToProps = dispatch =>
-//   bindActionCreators(CartActions, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(CartActions, dispatch);
 
 export default connect(
-  mapStateToProps
-  // mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(Cart);
