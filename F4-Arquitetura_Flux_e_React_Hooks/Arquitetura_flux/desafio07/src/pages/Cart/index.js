@@ -34,6 +34,7 @@ function Cart({
   navigation,
   products,
   total,
+  dispatch,
   removeFromCart,
   updateAmountRequest,
 }) {
@@ -58,7 +59,14 @@ function Cart({
                     <ProductTitle>{product.title}</ProductTitle>
                     <ProductPrice>{product.priceFormatted}</ProductPrice>
                   </ProductDetails>
-                  <ProductDelete onPress={() => removeFromCart(product.id)}>
+                  <ProductDelete
+                    onPress={() =>
+                      dispatch({
+                        type: 'REMOVE_FROM_CART',
+                        id: product.id,
+                      })
+                    } /* removeFromCart(product.id)} */
+                  >
                     <Icon
                       name="delete-forever"
                       size={24}
