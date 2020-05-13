@@ -28,19 +28,13 @@ import {
   EmptyText,
 } from './styles';
 
-function Cart({
-  navigation,
-  products,
-  total,
-  removeFromCart,
-  updateAmountRequest,
-}) {
+function Cart({ navigation, products, total, removeFromCart, updateAmount }) {
   function decrement(product) {
-    updateAmountRequest(product.id, product.amount - 1);
+    updateAmount(product.id, product.amount - 1);
   }
 
   function increment(product) {
-    updateAmountRequest(product.id, product.amount + 1);
+    updateAmount(product.id, product.amount + 1);
   }
 
   return (
