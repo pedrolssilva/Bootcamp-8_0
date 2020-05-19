@@ -3,7 +3,8 @@ import { reactotronRedux } from 'reactotron-redux';
 
 if (__DEV__) {
   const tron = Reactotron.configure({ host: '192.168.1.100' })
-    .useReactNative(reactotronRedux())
+    .useReactNative()
+    .use(reactotronRedux())
     .connect();
 
   console.tron = tron;
