@@ -3,6 +3,7 @@ import { ToastAndroid } from 'react-native';
 import api from '../../../services/api';
 import { addToCartSuccess, updateAmountSuccess } from './actions';
 import { formatPrice } from '../../../util/format';
+import navigation from '../../../services/navigation';
 
 function* addToCart({ id }) {
   const productExists = yield select(state =>
@@ -35,6 +36,8 @@ function* addToCart({ id }) {
     };
 
     yield put(addToCartSuccess(data));
+
+    navigation.navigate('Cart');
   }
 }
 
