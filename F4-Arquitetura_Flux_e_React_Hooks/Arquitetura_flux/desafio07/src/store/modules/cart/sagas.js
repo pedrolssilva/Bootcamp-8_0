@@ -1,4 +1,5 @@
 import { call, select, put, all, takeLatest } from 'redux-saga/effects';
+import { ToastAndroid } from 'react-native';
 import api from '../../../services/api';
 import { addToCartSuccess, updateAmount } from './actions';
 import { formatPrice } from '../../../util/format';
@@ -15,7 +16,10 @@ function* addToCart({ id }) {
   const amount = currentAmount + 1;
 
   if (amount > stockAmount) {
-    console.tron.warn(`Erro: Amount not available in stock.`);
+    ToastAndroid.show(
+      `Quantidade ${amount} não disponível em estoque.`,
+      ToastAndroid.LONG
+    );
     return;
   }
 
