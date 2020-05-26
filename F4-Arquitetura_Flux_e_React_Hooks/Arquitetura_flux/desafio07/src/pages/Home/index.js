@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -89,6 +90,11 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(CartActions, dispatch);
+
+Home.propTypes = {
+  addToCartRequest: PropTypes.func.isRequired,
+  amount: PropTypes.shape().isRequired,
+};
 
 export default connect(
   mapStateToProps,
